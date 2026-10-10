@@ -14,7 +14,7 @@ WORKDIR /src/src/TipShield.Bot
 RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/runtime:10.0-preview AS runtime
+FROM mcr.microsoft.com/dotnet/runtime:11.0-preview AS runtime
 WORKDIR /app
 USER $APP_UID
 
