@@ -122,15 +122,7 @@ Branch per issue (`feat/<name>-<issue#>`), small commits (`feat: add ticker chec
 - [ ] "Forward to parents" card
 - [ ] Domain check, SEBI verify link, community reports
 
-## 👥 Team
 
-**Team:** _Your Team Name_ · Manipal University Jaipur
-
-| Name | Role | GitHub |
-|---|---|---|
-| _Name_ | C# backend | [@handle](https://github.com/) |
-| _Name_ | C# UI and bot | [@handle](https://github.com/) |
-| _Name_ | Python services and eval | [@handle](https://github.com/) |
 
 ## 📄 License
 
