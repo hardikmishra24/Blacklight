@@ -1,5 +1,5 @@
 fastapi==0.115.12
-uvicorn[standard]==0.34.2
+uvicorn[standard]==0.54.0
 yfinance==0.2.54
 python-whois==0.9.5
 pydantic==2.11.3
