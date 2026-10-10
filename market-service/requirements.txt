@@ -1,4 +1,4 @@
-fastapi==0.115.12
+fastapi==0.142.2
 uvicorn[standard]==0.34.2
 yfinance==0.2.54
 python-whois==0.9.5
