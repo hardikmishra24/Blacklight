@@ -1,0 +1,48 @@
+@page "/about"
+@rendermode InteractiveServer
+
+<PageTitle>About — TipShield</PageTitle>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="fw-bold text-primary mb-3">About TipShield</h1>
+            <p class="lead text-muted">A dedicated educational risk-detection system for fraudulent stock tips and pump-and-dump operations targeting Indian retail investors.</p>
+
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <h4 class="fw-bold">How It Works</h4>
+                    <p>TipShield employs a multi-layered defense architecture:</p>
+                    <ol>
+                        <li><strong>Heuristic Rule Engine:</strong> Instantly inspects input against known fraudulent patterns in English, Hindi, and Hinglish with zero-tolerance for ReDoS vulnerabilities.</li>
+                        <li><strong>AI Risk Classifier:</strong> Powered by Google's Gemma 4 model via Gemini API to extract quotes, tactics, and context without bias or hallucination.</li>
+                        <li><strong>Market Reality Check:</strong> Correlates mentioned tickers against live trading volume, market capitalization, and volatility flags via Yahoo Finance.</li>
+                    </ol>
+
+                    <h4 class="fw-bold mt-4">Limits & Disclaimers</h4>
+                    <div class="alert alert-warning">
+                        <strong>Educational risk signals only. Not financial advice. A clean result does not mean a tip is safe.</strong>
+                        The platform never predicts stock prices, provides buy/sell recommendations, or accuses named individuals.
+                    </div>
+
+                    <h4 class="fw-bold mt-4">Privacy & Data Protection</h4>
+                    <p>TipShield is engineered with strict privacy principles:</p>
+                    <ul>
+                        <li>No message texts or uploaded screenshots are stored on our servers.</li>
+                        <li>Reporting records only store salted HMAC-SHA256 hashes of phone numbers or handles — never the raw identifiers.</li>
+                        <li>All logs strip personally identifiable details (PII) including phone numbers, emails, and credentials.</li>
+                    </ul>
+
+                    <h4 class="fw-bold mt-4">Emergency Resources</h4>
+                    <p>If you have been a victim of financial cyber fraud in India:</p>
+                    <ul>
+                        <li><strong>National Cybercrime Helpline:</strong> Dial <strong>1930</strong></li>
+                        <li><strong>Official Portal:</strong> <a href="https://cybercrime.gov.in" target="_blank" rel="noopener">cybercrime.gov.in</a></li>
+                        <li><strong>SEBI Intermediary Verification:</strong> <a href="https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&intmId=13" target="_blank" rel="noopener">SEBI Official Portal</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

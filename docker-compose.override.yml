@@ -1,0 +1,13 @@
+# Docker Compose override for local development
+services:
+  api:
+    environment:
+      - Gemma__Mock=true
+      - API_KEY=test-api-key
+      - REPORT_HASH_PEPPER=local-dev-pepper-32-chars-long-secret!
+      - INTERNAL_API_KEY=change-me-in-production
+
+  market-service:
+    environment:
+      - MARKET_INTERNAL_API_KEY=change-me-in-production
+

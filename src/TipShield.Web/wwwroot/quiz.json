@@ -1,0 +1,123 @@
+[
+  {
+    "id": 1,
+    "question": "A Telegram channel claims: '100% guaranteed 50% returns in 3 days! Buy XYZ stock immediately.' Is this a scam?",
+    "options": [
+      "No, high-risk stocks easily give 50% in 3 days.",
+      "Yes, legitimate market investments never guarantee returns, and extreme urgency is a red flag.",
+      "Maybe, if the channel admin shows a screenshot of his profits.",
+      "No, because Telegram allows certified advisors only."
+    ],
+    "correctIndex": 1,
+    "explanation": "No SEBI-registered entity can promise or guarantee fixed high returns. Urgency and guaranteed profits are quintessential pump-and-dump signals."
+  },
+  {
+    "id": 2,
+    "question": "Someone sends you a screenshot showing +₹10,00,000 profit in a Demat app and asks for ₹5,000 joining fee. What should you conclude?",
+    "options": [
+      "They are an expert trader and worth following.",
+      "Screenshots are impossible to edit or fake.",
+      "Profit screenshots can be easily faked or generated via inspect element/paper trading apps; never pay fees based on screenshots.",
+      "You should ask for their PAN card before paying."
+    ],
+    "correctIndex": 2,
+    "explanation": "Profit screenshots are the #1 tool used by fraudsters to lure victims into paid 'VIP' groups."
+  },
+  {
+    "id": 3,
+    "question": "A message claims: 'Operator buying in PENNY1 stock today. Target 10x! Buy before 10 AM!' How should this be viewed?",
+    "options": [
+      "Legitimate insider information.",
+      "Illegal pump-and-dump manipulation attempt targeting illiquid small-cap stocks.",
+      "Standard institutional research note.",
+      "A guaranteed opportunity."
+    ],
+    "correctIndex": 1,
+    "explanation": "Claims of 'operator buying' in micro-cap stocks are fabricated to inflate volume so scammers can dump their holdings on retail buyers."
+  },
+  {
+    "id": 4,
+    "question": "An advisor claims to be SEBI-registered and quotes number 'INH000099999'. What is the safest next step?",
+    "options": [
+      "Transfer fees immediately because SEBI registration guarantees safety.",
+      "Independently search the registration number on the official SEBI website (sebi.gov.in) intermediary portal.",
+      "Ask them to send a photo of their certificate over WhatsApp.",
+      "Check if their Telegram channel has more than 50,000 subscribers."
+    ],
+    "correctIndex": 1,
+    "explanation": "Scammers frequently steal real registration numbers of registered research analysts. Verify the official name, email, and phone listed on SEBI's portal."
+  },
+  {
+    "id": 5,
+    "question": "You receive a message: 'Share your OTP to enable automated copy-trading profits in your Demat account.' What should you do?",
+    "options": [
+      "Share it only if they are SEBI registered.",
+      "Share it because OTP is just for viewing access.",
+      "Never share OTP, passwords, or credentials with anyone under any circumstances.",
+      "Ask for a contract first."
+    ],
+    "correctIndex": 2,
+    "explanation": "Sharing OTP or Demat credentials grants unauthorized access to trade and drain your portfolio."
+  },
+  {
+    "id": 6,
+    "question": "Which of the following contact points is the official Indian National Cybercrime Helpline for financial fraud?",
+    "options": [
+      "100",
+      "1930",
+      "139",
+      "1098"
+    ],
+    "correctIndex": 1,
+    "explanation": "Dial 1930 immediately or visit cybercrime.gov.in to report cyber financial fraud and freeze fraudulent transactions."
+  },
+  {
+    "id": 7,
+    "question": "A stock tip arrives via WhatsApp from an unknown number recommending an obscure company with average daily volume of only 500 shares. What is the risk?",
+    "options": [
+      "High liquidity risk — you may buy shares at an inflated price and find no buyers when trying to sell (lower circuit lock).",
+      "No risk since low volume means few people know about it.",
+      "Low risk because small companies always grow faster.",
+      "Guaranteed listing gains."
+    ],
+    "correctIndex": 0,
+    "explanation": "Illiquid stocks are vulnerable to artificial price manipulation and circuit filters, trapping retail investors."
+  },
+  {
+    "id": 8,
+    "question": "A website URL given in a tip is 'groww-login-secure.xyz'. How should you evaluate this domain?",
+    "options": [
+      "Legitimate secondary domain of Groww.",
+      "Suspicious phishing / lookalike domain impersonating a well-known broker.",
+      "Safe because it contains the word 'secure'.",
+      "Safe if it has an HTTPS padlock icon."
+    ],
+    "correctIndex": 1,
+    "explanation": "Fraudsters create lookalike domains with deceptive subdomains or hyphens to harvest credentials."
+  },
+  {
+    "id": 9,
+    "question": "What is the primary motive behind free 'jackpot' stock tip channels on Telegram?",
+    "options": [
+      "Altruistic charity to help retail investors become wealthy.",
+      "Funneling users into expensive paid VIP tiers or using follower liquidity to exit pump-and-dump positions.",
+      "Fulfilling SEBI's retail financial inclusion mandate.",
+      "Promoting broker referral links only."
+    ],
+    "correctIndex": 1,
+    "explanation": "Free channels monetize by funneling victims to paid VIP groups or dumping pre-accumulated stock onto members."
+  },
+  {
+    "id": 10,
+    "question": "If an analysis on TipShield returns 'no_obvious_red_flags', does that mean the stock tip is safe and guaranteed to make money?",
+    "options": [
+      "Yes, TipShield certifies the investment as risk-free.",
+      "No, TipShield provides educational risk signals only. All market investments carry risk, and absence of red flags does not equal a guarantee.",
+      "Yes, if the score is zero you should invest your entire savings.",
+      "No, but it means SEBI has approved the tip."
+    ],
+    "correctIndex": 1,
+    "explanation": "TipShield provides educational signals, never financial advice. Clean results do not eliminate investment risk."
+  }
+]
+

@@ -1,0 +1,364 @@
+@page "/"
+@rendermode InteractiveServer
+@using TipShield.Core.Models
+@using System.Net.Http.Json
+@inject IHttpClientFactory HttpClientFactory
+
+<PageTitle>TipShield — Stock Scam & Pump-and-Dump Detector</PageTitle>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+            <!-- Header Banner -->
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold text-primary mb-2">🛡️ TipShield</h1>
+                <p class="lead text-secondary mb-0">
+                    Instantly analyze suspicious stock tips, pump-and-dump claims, and WhatsApp/Telegram trading messages.
+                </p>
+            </div>
+
+            <!-- Analysis Input Card -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <form @onsubmit="AnalyzeAsync" @onsubmit:preventDefault="true">
+                        <div class="mb-3">
+                            <textarea id="tipText" class="form-control font-monospace" rows="5" maxlength="5000"
+                                      placeholder="Paste stock tip message here... (e.g. '🚀 Guaranteed 200% return in 3 days! Join VIP group on Telegram...')"
+                                      @bind="tipText"></textarea>
+                            <div class="d-flex justify-content-between mt-1 text-muted small">
+                                <span>Supports English, Hindi (हिंदी) & Hinglish</span>
+                                <span>Max 5,000 characters</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary mb-1">Upload Screenshot (PNG, JPEG, WebP &le; 4 MB):</label>
+                            <InputFile OnChange="HandleFileSelected" class="form-control form-control-sm" accept="image/png,image/jpeg,image/webp" />
+                            @if (!string.IsNullOrEmpty(imageFileName))
+                            {
+                                <div class="mt-2 d-flex align-items-center gap-2">
+                                    <span class="badge bg-secondary">📎 @imageFileName</span>
+                                    <button type="button" class="btn btn-link btn-sm text-danger p-0" @onclick="ClearImage">Remove</button>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <div class="btn-group" role="group" aria-label="Output Language">
+                                <button type="button" class="btn btn-sm @(language == "en" ? "btn-primary" : "btn-outline-secondary")" @onclick='() => language = "en"'>English</button>
+                                <button type="button" class="btn btn-sm @(language == "hi" ? "btn-primary" : "btn-outline-secondary")" @onclick='() => language = "hi"'>हिंदी (Hindi)</button>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                @if (!string.IsNullOrWhiteSpace(tipText) || !string.IsNullOrEmpty(imageBase64) || result != null)
+                                {
+                                    <button type="button" class="btn btn-outline-secondary btn-sm px-3" @onclick="ClearForm">Clear</button>
+                                }
+                                <button type="submit" class="btn btn-primary px-4 fw-bold" disabled="@isLoading">
+                                    @if (isLoading)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                        <span>Evaluating Tip...</span>
+                                    }
+                                    else
+                                    {
+                                        <span>🔍 Analyze Tip</span>
+                                    }
+                                </button>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger mt-3 mb-0" role="alert">
+                                ⚠️ @errorMessage
+                            </div>
+                        }
+                    </form>
+                </div>
+            </div>
+
+            <!-- Analysis Result Display -->
+            @if (result != null)
+            {
+                <div class="card shadow border-0 mb-4 animate-fadeIn">
+                    <!-- Verdict Header Banner -->
+                    <div class="card-header @GetVerdictHeaderClass() text-white text-center py-3">
+                        <div class="d-flex justify-content-between align-items-center px-2">
+                            <span class="badge bg-dark bg-opacity-25 text-white">
+                                @(result.AiAvailable ? "🤖 AI + Rules Hybrid" : "⚙️ Rules Engine Only")
+                            </span>
+                            <span class="badge bg-dark bg-opacity-25 text-white font-monospace">
+                                ID: @result.RequestId
+                            </span>
+                        </div>
+                        <h2 class="h3 fw-bold mb-1 mt-2">
+                            @GetVerdictIcon() @FormatVerdict(result.Verdict)
+                        </h2>
+                        <div class="display-6 fw-bold">
+                            Risk Score: @result.Score <span class="fs-4 opacity-75">/ 100</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <!-- Assessment Explanation -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-dark border-bottom pb-2">📋 Assessment Explanation</h5>
+                            <p class="fs-6 text-secondary mb-0">@result.Explanation</p>
+                        </div>
+
+                        <!-- Red Flags Quoted -->
+                        @if (result.RedFlags.Count > 0)
+                        {
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-danger border-bottom pb-2">🚩 Identified Red Flags</h5>
+                                <div class="list-group gap-2">
+                                    @foreach (var flag in result.RedFlags)
+                                    {
+                                        <div class="list-group-item list-group-item-danger border-danger-subtle rounded-3">
+                                            <div class="fw-bold text-dark">
+                                                “<span class="text-danger">@flag.Quote</span>”
+                                            </div>
+                                            <div class="text-secondary small mt-1">
+                                                <strong>Why:</strong> @flag.Why
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Market Reality Check -->
+                        @if (result.Market.Any(m => m.Found))
+                        {
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-primary border-bottom pb-2">📊 Market Reality Check</h5>
+                                <div class="row g-3">
+                                    @foreach (var m in result.Market.Where(m => m.Found))
+                                    {
+                                        <div class="col-md-6">
+                                            <div class="border rounded-3 p-3 @(m.Suspicious ? "bg-warning-subtle border-warning" : "bg-light")">
+                                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <span class="h6 fw-bold mb-0">@m.Symbol</span>
+                                                    <span class="badge @(m.Suspicious ? "bg-warning text-dark" : "bg-success")">
+                                                        @(m.Suspicious ? "⚠️ Suspicious Volume" : "✅ Normal")
+                                                    </span>
+                                                </div>
+                                                <div class="small text-secondary">
+                                                    <div>Last Close: <strong>₹@(m.LastClose?.ToString("N2") ?? "N/A")</strong></div>
+                                                    <div>Volume Spike: <strong>@(m.VolumeSpikeX.HasValue ? $"{m.VolumeSpikeX.Value:F1}x" : "N/A")</strong></div>
+                                                    @if (m.MarketCap.HasValue)
+                                                    {
+                                                        <div>Market Cap: <strong>₹@((m.MarketCap.Value / 10000000m).ToString("N0")) Cr</strong></div>
+                                                    }
+                                                </div>
+                                                @if (m.Reasons.Count > 0)
+                                                {
+                                                    <ul class="mb-0 mt-2 small text-danger ps-3">
+                                                        @foreach (var r in m.Reasons)
+                                                        {
+                                                            <li>@r</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Recommended Next Steps -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-success border-bottom pb-2">✅ Recommended Next Steps</h5>
+                            <ul class="list-group list-group-flush">
+                                @foreach (var step in result.NextSteps)
+                                {
+                                    <li class="list-group-item px-0 py-2 d-flex align-items-start gap-2">
+                                        <span class="text-success fw-bold">✓</span>
+                                        <span>@step</span>
+                                    </li>
+                                }
+                            </ul>
+                            @if (!string.IsNullOrEmpty(result.SebiVerifyUrl))
+                            {
+                                <div class="mt-2">
+                                    <a class="btn btn-sm btn-outline-primary" href="@result.SebiVerifyUrl" target="_blank" rel="noopener">
+                                        🔗 Search SEBI Official Intermediary Directory
+                                    </a>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Forward to Parents Safety Card -->
+                        <div class="bg-light p-3 rounded-3 border mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="fw-bold mb-0 text-dark">👨‍👩‍👧‍👦 "Forward to Parents" Safety Card</h6>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="GenerateCardAsync">
+                                    Generate Card
+                                </button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(familyCard))
+                            {
+                                <div class="p-3 bg-white border rounded-3 small font-monospace text-pre-wrap mb-2 text-dark">
+                                    @familyCard
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a class="btn btn-sm btn-success" href="@($"https://wa.me/?text={Uri.EscapeDataString(familyCard)}")" target="_blank" rel="noopener">
+                                        📲 Share via WhatsApp
+                                    </a>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Disclaimer Banner -->
+                        <div class="border-top pt-3 text-muted small text-center">
+                            @result.Disclaimer
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string tipText = "";
+    private string language = "en";
+    private string? imageBase64;
+    private string? imageMimeType;
+    private string? imageFileName;
+    private bool isLoading;
+    private string? errorMessage;
+    private AnalysisResult? result;
+    private string? familyCard;
+
+    private void ClearForm()
+    {
+        tipText = "";
+        imageBase64 = null;
+        imageMimeType = null;
+        imageFileName = null;
+        errorMessage = null;
+        result = null;
+        familyCard = null;
+    }
+
+    private void ClearImage()
+    {
+        imageBase64 = null;
+        imageMimeType = null;
+        imageFileName = null;
+    }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null) return;
+        if (file.Size > 4 * 1024 * 1024)
+        {
+            errorMessage = "Image size exceeds 4 MB limit.";
+            return;
+        }
+
+        imageFileName = file.Name;
+        imageMimeType = file.ContentType;
+        using var stream = file.OpenReadStream(4 * 1024 * 1024);
+        using var ms = new MemoryStream();
+        await stream.CopyToAsync(ms);
+        imageBase64 = Convert.ToBase64String(ms.ToArray());
+        errorMessage = null;
+    }
+
+    private async Task AnalyzeAsync()
+    {
+        errorMessage = null;
+        if (string.IsNullOrWhiteSpace(tipText) && string.IsNullOrEmpty(imageBase64))
+        {
+            errorMessage = "Please enter text or upload a screenshot to analyze.";
+            return;
+        }
+
+        isLoading = true;
+        try
+        {
+            var client = HttpClientFactory.CreateClient("TipShieldApi");
+            var request = new
+            {
+                text = tipText,
+                imageBase64,
+                imageMimeType,
+                outputLanguage = language
+            };
+
+            var response = await client.PostAsJsonAsync("/api/analyze", request);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorDetail = await response.Content.ReadAsStringAsync();
+                errorMessage = $"Analysis service error ({(int)response.StatusCode}): {errorDetail}";
+                return;
+            }
+
+            result = await response.Content.ReadFromJsonAsync<AnalysisResult>();
+            familyCard = null;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Connection error: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task GenerateCardAsync()
+    {
+        if (result == null) return;
+        try
+        {
+            var client = HttpClientFactory.CreateClient("TipShieldApi");
+            var cardReq = new
+            {
+                score = result.Score,
+                verdict = result.Verdict,
+                topRedFlags = result.RedFlags.Select(r => r.Quote).ToList(),
+                language
+            };
+            var resp = await client.PostAsJsonAsync("/api/family-card", cardReq);
+            if (resp.IsSuccessStatusCode)
+            {
+                var doc = await resp.Content.ReadFromJsonAsync<FamilyCardResponse>();
+                familyCard = doc?.Card;
+            }
+        }
+        catch
+        {
+            familyCard = "Failed to generate family card.";
+        }
+    }
+
+    private string GetVerdictHeaderClass() => result?.Score switch
+    {
+        >= 65 => "verdict-header-scam",
+        >= 35 => "verdict-header-suspicious",
+        _ => "verdict-header-clean"
+    };
+
+    private string GetVerdictIcon() => result?.Score switch
+    {
+        >= 65 => "🚨",
+        >= 35 => "⚠️",
+        _ => "✅"
+    };
+
+    private static string FormatVerdict(string verdict) => verdict switch
+    {
+        "likely_scam" => "Likely Scam",
+        "suspicious" => "Suspicious",
+        "no_obvious_red_flags" => "No Obvious Red Flags",
+        _ => verdict.Replace("_", " ")
+    };
+
+    private record FamilyCardResponse(string? Card, string? Language);
+}

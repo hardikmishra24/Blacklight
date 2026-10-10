@@ -1,0 +1,31 @@
+# Multi-stage build for TipShield.Web (Blazor Server)
+FROM mcr.microsoft.com/dotnet/sdk:10.0-preview AS build
+WORKDIR /src
+
+# Copy project files and restore dependencies
+COPY src/TipShield.Core/TipShield.Core.csproj src/TipShield.Core/
+COPY src/TipShield.Web/TipShield.Web.csproj src/TipShield.Web/
+RUN dotnet restore src/TipShield.Web/TipShield.Web.csproj
+
+# Copy source code and build
+COPY src/TipShield.Core/ src/TipShield.Core/
+COPY src/TipShield.Web/ src/TipShield.Web/
+WORKDIR /src/src/TipShield.Web
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-preview AS runtime
+WORKDIR /app
+USER $APP_UID
+
+COPY --from=build /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:5001
+
+EXPOSE 5001
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:5001/ || exit 1
+
+ENTRYPOINT ["dotnet", "TipShield.Web.dll"]
+

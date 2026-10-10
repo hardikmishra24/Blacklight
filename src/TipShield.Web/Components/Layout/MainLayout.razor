@@ -1,0 +1,58 @@
+@inherits LayoutComponentBase
+
+<div class="min-vh-100 d-flex flex-column bg-light">
+    <!-- Modern Top Navigation Bar -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-2">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="">
+                <span class="fs-4">🛡️</span>
+                <span>TipShield</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-white" href="" Match="NavLinkMatch.All">
+                            🔍 Analyze Tip
+                        </NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-white" href="about">
+                            ℹ️ About & Guides
+                        </NavLink>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-danger py-2 px-3 fw-semibold">
+                        🚨 Cyber Helpline: 1930
+                    </span>
+                    <a class="btn btn-sm btn-outline-light" href="https://cybercrime.gov.in" target="_blank" rel="noopener">
+                        cybercrime.gov.in
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow-1">
+        @Body
+    </main>
+
+    <!-- Clean Footer -->
+    <footer class="bg-white border-top py-4 mt-5 text-center text-muted small">
+        <div class="container">
+            <p class="mb-1 fw-semibold text-dark">
+                ⚠️ Educational risk signals only. Not financial advice. A clean result does not mean a tip is safe.
+            </p>
+            <p class="mb-0">
+                Never trade based on unverified WhatsApp/Telegram tips. Always verify advisors on SEBI's official portal.
+            </p>
+        </div>
+    </footer>
+</div>

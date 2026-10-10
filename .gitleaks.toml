@@ -1,0 +1,9 @@
+title = "TipShield gitleaks config"
+
+[allowlist]
+  description = "Allowlisted files and patterns"
+  paths = [
+    '''\.env\.example$''',
+    '''docs/.*\.md$''',
+    '''README\.md$''',
+  ]

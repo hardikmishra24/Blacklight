@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TipShield.Api/TipShield.Api.csproj" />
+    <Project Path="src/TipShield.Bot/TipShield.Bot.csproj" />
+    <Project Path="src/TipShield.Core/TipShield.Core.csproj" />
+    <Project Path="src/TipShield.Gemma/TipShield.Gemma.csproj" />
+    <Project Path="src/TipShield.Web/TipShield.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TipShield.Api.Tests/TipShield.Api.Tests.csproj" />
+    <Project Path="tests/TipShield.Core.Tests/TipShield.Core.Tests.csproj" />
+    <Project Path="tests/TipShield.Gemma.Tests/TipShield.Gemma.Tests.csproj" />
+  </Folder>
+</Solution>

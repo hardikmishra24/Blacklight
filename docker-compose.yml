@@ -1,0 +1,97 @@
+services:
+  market-service:
+    build:
+      context: ./market-service
+      dockerfile: Dockerfile
+    container_name: tipshield-market-service
+    environment:
+      - MARKET_INTERNAL_API_KEY=${INTERNAL_API_KEY:-internal-dev-key-default}
+      - MARKET_RATE_LIMIT_PER_MINUTE=120
+      - MARKET_CACHE_TTL_SECONDS=600
+    networks:
+      - internal-net
+    # Port 8000 intentionally NOT published to host for internal service isolation
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/health').raise_for_status()"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: tipshield-api
+    environment:
+      - API_KEY=${API_KEY:-default-dev-api-key}
+      - REPORT_HASH_PEPPER=${REPORT_HASH_PEPPER:-default-dev-pepper-32-chars-long!}
+      - MARKET_SERVICE_URL=http://market-service:8000
+      - INTERNAL_API_KEY=${INTERNAL_API_KEY:-internal-dev-key-default}
+      - DATABASE_PATH=/data/tipshield.db
+      - Gemma__ApiKey=${GEMINI_API_KEY:-}
+      - Gemma__Mock=${GEMMA_MOCK:-false}
+      - Gemma__ModelId=${GEMMA_MODEL_ID:-gemma-4-31b-it}
+      - Gemma__Temperature=0.2
+      - Gemma__Thinking=false
+    volumes:
+      - tipshield-data:/data
+    networks:
+      - internal-net
+      - frontend-net
+    ports:
+      - "5000:5000"
+    depends_on:
+      market-service:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: tipshield-web
+    environment:
+      - API_BASE_URL=http://api:5000
+      - API_KEY=${API_KEY:-default-dev-api-key}
+    networks:
+      - frontend-net
+    ports:
+      - "5001:5001"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    container_name: tipshield-bot
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - API_BASE_URL=http://api:5000
+      - API_KEY=${API_KEY:-default-dev-api-key}
+    networks:
+      - frontend-net
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  internal-net:
+    internal: true
+  frontend-net:
+    driver: bridge
+
+volumes:
+  tipshield-data:
+

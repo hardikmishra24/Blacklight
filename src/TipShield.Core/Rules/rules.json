@@ -1,0 +1,180 @@
+{
+  "rules": [
+    {
+      "id": "GR001",
+      "description": "Mentions guaranteed returns",
+      "weight": 35,
+      "pattern": "\\b(?:guarantee(?:d)?(?:\\s+\\d+%)?\\s+(?:returns|profit|income)|100%\\s+safe)\\b",
+      "category": "guaranteed_returns"
+    },
+    {
+      "id": "GR002",
+      "description": "Mentions zero risk",
+      "weight": 35,
+      "pattern": "\\b(?:zero\\s+risk|no\\s+loss|risk\\s*free)\\b",
+      "category": "guaranteed_returns"
+    },
+    {
+      "id": "GR003",
+      "description": "Hindi guaranteed returns",
+      "weight": 35,
+      "pattern": "\\b(?:pukka|confirm|guarantee)\\s+(?:profit|fayda|return)\\b",
+      "category": "guaranteed_returns"
+    },
+    {
+      "id": "UG001",
+      "description": "Promises multi-bagger returns in short time",
+      "weight": 25,
+      "pattern": "\\b(?:2x|3x|5x|10x)\\s+(?:returns?|profit|in)\\b",
+      "category": "unrealistic_gains"
+    },
+    {
+      "id": "UG002",
+      "description": "Double your money",
+      "weight": 30,
+      "pattern": "\\bdouble\\s+(?:your\\s+)?(?:money|capital|investment)\\b",
+      "category": "unrealistic_gains"
+    },
+    {
+      "id": "UG003",
+      "description": "High percentage in days",
+      "weight": 25,
+      "pattern": "\\b[1-9]\\d{1,3}%\\s+(?:in|within)\\s+\\d+\\s+(?:days?|weeks?|months?)\\b",
+      "category": "unrealistic_gains"
+    },
+    {
+      "id": "URG001",
+      "description": "Urgency - last chance",
+      "weight": 15,
+      "pattern": "\\b(?:last\\s+chance|hurry|only\\s+today|limited\\s+slots|offer\\s+ends)\\b",
+      "category": "urgency"
+    },
+    {
+      "id": "URG002",
+      "description": "Urgency - join now before",
+      "weight": 15,
+      "pattern": "\\bjoin\\s+now\\s+before\\b",
+      "category": "urgency"
+    },
+    {
+      "id": "URG003",
+      "description": "Urgency Hindi",
+      "weight": 15,
+      "pattern": "\\b(?:jaldi|fatafat)\\s+(?:karo|join)\\b",
+      "category": "urgency"
+    },
+    {
+      "id": "INS001",
+      "description": "Insider info claims",
+      "weight": 40,
+      "pattern": "\\b(?:insider\\s+info(?:rmation)?|operator\\s+is\\s+buying|secret\\s+news)\\b",
+      "category": "insider_claim"
+    },
+    {
+      "id": "INS002",
+      "description": "Fake SEBI claim",
+      "weight": 20,
+      "pattern": "\\b(?:sebi\\s+registered|certified\\s+analyst)\\b",
+      "category": "insider_claim"
+    },
+    {
+      "id": "PG001",
+      "description": "Premium group funnel",
+      "weight": 20,
+      "pattern": "\\b(?:premium|vip|paid)\\s+(?:group|channel|membership)\\b",
+      "category": "paid_group_funnel"
+    },
+    {
+      "id": "PG002",
+      "description": "Join paid",
+      "weight": 20,
+      "pattern": "\\bjoin\\s+paid\\b",
+      "category": "paid_group_funnel"
+    },
+    {
+      "id": "PG003",
+      "description": "Monthly fee",
+      "weight": 20,
+      "pattern": "₹\\d+.*per\\s+month",
+      "category": "paid_group_funnel"
+    },
+    {
+      "id": "PAY001",
+      "description": "Payment requests UPI",
+      "weight": 25,
+      "pattern": "\\b(?:pay\\s+₹|send\\s+money\\s+to|transfer\\s+to)\\b",
+      "category": "payment_request"
+    },
+    {
+      "id": "PAY002",
+      "description": "Payment fees",
+      "weight": 25,
+      "pattern": "\\b(?:registration|joining)\\s+fees?\\b",
+      "category": "payment_request"
+    },
+    {
+      "id": "PAY003",
+      "description": "Crypto wallet patterns",
+      "weight": 35,
+      "pattern": "\\b(?:usdt|btc|eth)\\s+address\\b",
+      "category": "payment_request"
+    },
+    {
+      "id": "CRED001",
+      "description": "OTP requests",
+      "weight": 50,
+      "pattern": "\\b(?:share|send|give)\\s+(?:your\\s+)?otp\\b",
+      "category": "credential_request"
+    },
+    {
+      "id": "CRED002",
+      "description": "Demat login requests",
+      "weight": 50,
+      "pattern": "\\b(?:demat\\s+login|password|credentials)\\b",
+      "category": "credential_request"
+    },
+    {
+      "id": "OFF001",
+      "description": "Off platform links Telegram",
+      "weight": 15,
+      "pattern": "\\b(?:t\\.me|telegram\\.me)\\/",
+      "category": "off_platform"
+    },
+    {
+      "id": "OFF002",
+      "description": "Off platform WhatsApp",
+      "weight": 15,
+      "pattern": "\\b(?:wa\\.me|whatsapp\\.com)\\/",
+      "category": "off_platform"
+    },
+    {
+      "id": "PMP001",
+      "description": "Pump language",
+      "weight": 15,
+      "pattern": "\\b(?:rocket|multibagger|jackpot|to\\s+the\\s+moon)\\b",
+      "category": "pump_language"
+    },
+    {
+      "id": "PMP002",
+      "description": "Pump language Hindi",
+      "weight": 15,
+      "pattern": "\\b(?:paisa\\s+double|aag\\s+laga\\s+dega)\\b",
+      "category": "pump_language"
+    },
+    {
+      "id": "AUTH001",
+      "description": "Fake authority",
+      "weight": 20,
+      "pattern": "\\b(?:guaranteed\\s+by|certified\\s+by)\\b",
+      "category": "fake_authority"
+    },
+    {
+      "id": "AUTH002",
+      "description": "100% accuracy",
+      "weight": 20,
+      "pattern": "\\b100%\\s+accuracy\\b",
+      "category": "fake_authority"
+    }
+  ]
+}
+

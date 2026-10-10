@@ -1,0 +1,60 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.vs/
+.vscode/
+*.DotSettings.user
+TestResults/
+coverage/
+
+## Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+## Secrets & environment
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+
+## Database
+*.db
+*.db-shm
+*.db-wal
+
+## Logs
+logs/
+*.log
+
+## Docker
+.docker/
+
+## OS
+Thumbs.db
+.DS_Store
+
+## IDE
+.idea/
+*.swp
+*.swo
+
+## User secrets
+secrets.json
+
+## Keys and certs
+*.pem
+*.key
+*.pfx
+*.sqlite

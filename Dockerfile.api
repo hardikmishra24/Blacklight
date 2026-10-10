@@ -1,0 +1,38 @@
+# Multi-stage build for TipShield.Api
+FROM mcr.microsoft.com/dotnet/sdk:10.0-preview AS build
+WORKDIR /src
+
+# Copy project files and restore dependencies
+COPY src/TipShield.Core/TipShield.Core.csproj src/TipShield.Core/
+COPY src/TipShield.Gemma/TipShield.Gemma.csproj src/TipShield.Gemma/
+COPY src/TipShield.Api/TipShield.Api.csproj src/TipShield.Api/
+RUN dotnet restore src/TipShield.Api/TipShield.Api.csproj
+
+# Copy source code and build
+COPY src/TipShield.Core/ src/TipShield.Core/
+COPY src/TipShield.Gemma/ src/TipShield.Gemma/
+COPY src/TipShield.Api/ src/TipShield.Api/
+WORKDIR /src/src/TipShield.Api
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-preview AS runtime
+WORKDIR /app
+
+# Ensure data directory for SQLite exists and has proper permissions
+USER root
+RUN mkdir -p /data && chown -R $APP_UID:$APP_UID /data
+USER $APP_UID
+
+COPY --from=build /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:5000 \
+    DATABASE_PATH=/data/tipshield.db
+
+EXPOSE 5000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:5000/api/health || exit 1
+
+ENTRYPOINT ["dotnet", "TipShield.Api.dll"]
+
