@@ -4,9 +4,6 @@
 
 If you discover a security vulnerability in TipShield, please report it responsibly.
 
-**Do NOT open a public GitHub issue for security vulnerabilities.**
-
-Instead, please email: security@tipshield.example.com
 
 Include:
 - Description of the vulnerability
