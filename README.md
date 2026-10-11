@@ -1,4 +1,4 @@
-# TipShield 🛡️
+# TipShield 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8.0%20%7C%2010.0-purple.svg)](https://dotnet.microsoft.com/)
 [![Python](https://img.shields.io/badge/Python-3.11+-yellow.svg)](https://www.python.org/)
@@ -15,7 +15,7 @@ https://github.com/user-attachments/assets/a4625dfa-ab7a-4d50-b08b-6828cb1d844d
 
 
 ---
-## 📌 Overview
+##  Overview
 Retail investors in India face rampant financial cyber-fraud, particularly pump-and-dump schemes, unregistered advisory rackets, and fraudulent group funnels proliferating on **WhatsApp** and **Telegram**.
 These fraudulent tips commonly use:
 - **Guaranteed returns:** *"Double your money in 7 days guaranteed!"*
@@ -24,19 +24,19 @@ These fraudulent tips commonly use:
 - **Profit screenshots:** Digitally fabricated Demat statements to lure beginners.
 **TipShield** provides an open-source, privacy-first, automated multi-layered risk analysis engine that screens text, screenshots, or both across **English**, **Hindi (Devanagari)**, and **Hinglish (romanized Hindi)**.
 ---
-## ✨ Key Features
-- **🎯 Transparent Risk Score (0–100) & Verdict:**
+##  Key Features
+- ** Transparent Risk Score (0–100) & Verdict:**
   - `likely_scam` (65–100) — High risk with multiple scam signals.
   - `suspicious` (35–64) — Warning indicators present; requires extreme caution.
   - `no_obvious_red_flags` (0–34) — Educational/neutral content without blatant manipulation markers.
-- **🚩 Verifiable Red Flags:** Quotes exact suspicious phrases verbatim from the message along with plain-language explanations.
-- **📊 Real-Time Market Reality Check:** Connects to live exchange feeds (NSE/BSE via Yahoo Finance) to detect abnormal volume spikes ($>3\times$), market cap reality checks ($<\text{₹}500\text{ Cr}$ small-cap pumps), and recent price swings. *Unlisted or invalid symbols are automatically filtered out.*
-- **🌐 Lookalike Broker & Domain Verification:** Checks sender URLs against homoglyph / typo-squatting lists (e.g., lookalikes of Zerodha, Groww, Upstox, SEBI) with WHOIS registration age checks.
-- **👨‍👩‍👧‍👦 "Forward to Parents" Safety Card:** Generates easy-to-read, WhatsApp-shareable warning summaries in English and Hindi.
-- **🛡️ Next-Steps Checklist:** Direct guidance with links to the official SEBI intermediary search portal and India's Cyber Crime Helpline (`1930`).
-- **🔒 Privacy-Preserving Report Vault:** Phone numbers, handles, and URLs submitted for crowdsourced fraud reporting are stored only as one-way HMAC-SHA256 hashes with server-side pepper. Raw PII is never persisted.
+- ** Verifiable Red Flags:** Quotes exact suspicious phrases verbatim from the message along with plain-language explanations.
+- ** Real-Time Market Reality Check:** Connects to live exchange feeds (NSE/BSE via Yahoo Finance) to detect abnormal volume spikes ($>3\times$), market cap reality checks ($<\text{₹}500\text{ Cr}$ small-cap pumps), and recent price swings. *Unlisted or invalid symbols are automatically filtered out.*
+- ** Lookalike Broker & Domain Verification:** Checks sender URLs against homoglyph / typo-squatting lists (e.g., lookalikes of Zerodha, Groww, Upstox, SEBI) with WHOIS registration age checks.
+- ** "Forward to Parents" Safety Card:** Generates easy-to-read, WhatsApp-shareable warning summaries in English and Hindi.
+- ** Next-Steps Checklist:** Direct guidance with links to the official SEBI intermediary search portal and India's Cyber Crime Helpline (`1930`).
+- ** Privacy-Preserving Report Vault:** Phone numbers, handles, and URLs submitted for crowdsourced fraud reporting are stored only as one-way HMAC-SHA256 hashes with server-side pepper. Raw PII is never persisted.
 ---
-## 🏛️ Architecture & System Design
+##  Architecture & System Design
                ┌─────────────────────────┐
                  │   User (Browser / App)   │
                  └────────────┬────────────┘
@@ -83,7 +83,7 @@ These fraudulent tips commonly use:
 | **Database** | SQLite via EF Core | Secure report database storing only peppered hashes |
 | **Packaging** | Docker & Docker Compose | Multi-stage builds, non-root containers, internal network isolation |
 ---
-## 🚀 Quickstart & Local Setup
+##  Quickstart & Local Setup
 ### Prerequisites
 * [.NET 8.0 SDK](https://dotnet.microsoft.com/download) (or .NET 10.0 SDK)
 * [Python 3.11+](https://www.python.org/) with `pip`
@@ -165,7 +165,7 @@ TELEGRAM_BOT_TOKEN=your-telegram-bot-token-here
 # Service Endpoints
 MARKET_SERVICE_URL=http://127.0.0.1:8000
 DATABASE_PATH=tipshield.db
-🧪 Testing
+ Testing
 
 TipShield includes unit, integration, and security tests across both .NET and Python components:
 
@@ -195,7 +195,7 @@ API Authentication: Fixed-time constant equality checks (CryptographicOperations
 Privacy Hashing: Validating HMAC-SHA256 peppered hashing for fraud reports.
 
   
-🛡️ Security & Privacy Guardrails
+ Security & Privacy Guardrails
 
   
 No Raw PII Storage: Submitted phone numbers, handles, and URLs are normalized and stored as one-way HMAC hashes. Raw identifiers never touch disk.
@@ -213,7 +213,7 @@ Internal Network Isolation: The Python market service binds only to the internal
 No Speculation: The application strictly enforces rules preventing stock price prediction, buy/sell recommendations, and naming specific individuals.
 
   
-📜 Disclaimer
+ Disclaimer
 
 Educational risk signals only. Not financial advice. A clean result does not mean a tip is safe.
 
@@ -221,6 +221,6 @@ Educational risk signals only. Not financial advice. A clean result does not mea
  before committing funds. For cyber fraud assistance in India, contact the National Cyber Crime Reporting Portal at cybercrime.gov.in
  or dial helpline 1930.
 
-📄 License
+ License
 
 This project is licensed under the MIT License.
