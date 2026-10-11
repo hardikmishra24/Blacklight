@@ -20,13 +20,13 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore TipShield.sln
+        run: dotnet restore TipShield.slnx
 
       - name: Build solution
-        run: dotnet build TipShield.sln --no-restore --configuration Release
+        run: dotnet build TipShield.slnx --no-restore --configuration Release
 
       - name: Run .NET Tests
-        run: dotnet test TipShield.sln --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
+        run: dotnet test TipShield.slnx --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
 
   python-tests:
     name: Market Service Tests
@@ -66,4 +66,3 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
