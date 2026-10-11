@@ -11,8 +11,25 @@ public class RuleEngineTests
 
     public RuleEngineTests()
     {
-        var json = File.ReadAllText(@"c:\Users\hardi\OneDrive\Desktop\Tipshield\src\TipShield.Core\Rules\rules.json");
+        var json = File.ReadAllText(GetRulesFilePath());
         _engine = new RuleEngine(json);
+    }
+
+    private static string GetRulesFilePath()
+    {
+        var directory = new DirectoryInfo(AppContext.BaseDirectory);
+        while (directory is not null)
+        {
+            var candidate = Path.Combine(directory.FullName, "src", "TipShield.Core", "Rules", "rules.json");
+            if (File.Exists(candidate))
+            {
+                return candidate;
+            }
+
+            directory = directory.Parent;
+        }
+
+        throw new FileNotFoundException("Could not locate src/TipShield.Core/Rules/rules.json from test base directory.");
     }
 
     [Theory]
@@ -75,4 +92,3 @@ public class RuleEngineTests
         result.Score.Should().Be(0);
     }
 }
-
