@@ -9,7 +9,7 @@
 > **Educational risk signals only. Not financial advice. A clean result does not mean a tip is safe.**  
 > TipShield is an automated educational tool designed to detect scam and pump-and-dump patterns in unverified stock tips. It never predicts stock prices, never gives buy/sell advice, and never accuses named individuals.
 ---
-## 🎥 Video Demo & Walkthrough
+##  Video Demo & Walkthrough
  
 https://github.com/user-attachments/assets/a4625dfa-ab7a-4d50-b08b-6828cb1d844d
 
