@@ -146,7 +146,7 @@ API: http://localhost:5000
 Market Service: Kept private inside the internal Docker network.
 
   
-⚙️ Configuration & Environment Variables
+ Configuration & Environment Variables
 
 Create a .env file in the root directory (refer to .env.example):
 
