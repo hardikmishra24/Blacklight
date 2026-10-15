@@ -71,7 +71,7 @@ These fraudulent tips commonly use:
 (HMAC-SHA256 Peppered Hashes)
 
 ---
-## 🛠️ Tech Stack
+##  Tech Stack
 | Component | Technology | Description |
 | :--- | :--- | :--- |
 | **API** | ASP.NET Core Minimal API | High-throughput backend with rate limiting & RFC 7807 error handling |
